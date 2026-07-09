@@ -1,0 +1,2 @@
+
+ZYLOS_SECURITY_OPA_ENDPOINT: "http://localhost:8181/mock-opa-endpoint"

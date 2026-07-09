@@ -1,8 +1,6 @@
 spring:
   application:
     name: zylos-hello-service
-  profiles:
-    active: ${SPRING_PROFILES_ACTIVE:local}
 
 server:
   port: 8080
@@ -10,16 +8,13 @@ server:
 
 zylos:
   security:
-    issuer-uri: ${ZYLOS_ISSUER_URI:http://keycloak.zylos.local/realms/zylos}
-    jwk-set-uri: ${ZYLOS_JWK_SET_URI:http://keycloak.zylos.local/realms/zylos/protocol/openid-connect/certs}
+    issuer-uri: ${ZYLOS_ISSUER_URI}
+    jwk-set-uri: ${ZYLOS_JWK_SET_URI}
     expected-audience: zylos-internal-hello
     actor-chains:
       enabled: true
-    # Fine-grained authorization via centralized OPA. Active only when an endpoint
-    # is set (deployed envs set ZYLOS_SECURITY_OPA_ENDPOINT). Left unset locally and
-    # in slice tests so those paths run without OPA.
-    # opa:
-    #   endpoint: http://opa.opa.svc.cluster.local:8181
+    opa:
+      endpoint: ${ZYLOS_SECURITY_OPA_ENDPOINT}
 
 management:
   server:
@@ -53,12 +48,12 @@ management:
     tracing:
       export:
         otlp:
-          endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://opentelemetry-collector.observability.svc.cluster.local:4318/v1/traces}
+          endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT}
   otlp:
     metrics:
       export:
         enabled: true
-        url: ${OTEL_EXPORTER_OTLP_METRICS_ENDPOINT:http://opentelemetry-collector.observability.svc.cluster.local:4318/v1/metrics}
+        url: ${OTEL_EXPORTER_OTLP_METRICS_ENDPOINT}
 
 app:
   version: "@project.version@"
